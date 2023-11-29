@@ -38,8 +38,11 @@ const App = () => {
     setPage(page + 1)
   }
   const searchImages = () => {
-    setData([])
-    setQuery(queryRef.current.value)
+    if (query !== queryRef.current.value) {
+      setData([])
+      setQuery(queryRef.current.value)
+    }
+    document.activeElement.blur()
   }
 
   useEffect(() => {
