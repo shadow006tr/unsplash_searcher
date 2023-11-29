@@ -5,6 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Search } from '../style/searcher'
 
 const Searcher = ({ queryRef, searchImages, query }) => {
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') searchImages()
+  }
+
   return (
     <Search query={query}>
       <InputGroup className='mb-3'>
@@ -13,6 +17,7 @@ const Searcher = ({ queryRef, searchImages, query }) => {
           type='search'
           ref={queryRef}
           placeholder='Телефоны, яблоки, груши...'
+          onKeyDown={handleEnter}
         />
         <Button className='shadow-none' variant='danger' onClick={searchImages}>
           Искать
