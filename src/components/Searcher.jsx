@@ -6,7 +6,14 @@ import { Search } from '../style/searcher'
 
 const Searcher = ({ queryRef, searchImages, query }) => {
   const handleEnter = (e) => {
-    if (e.key === 'Enter') searchImages()
+    if (e.key === 'Enter' || e.key === 13) {
+      handleSearch()
+    }
+  }
+
+  const handleSearch = (e) => {
+    searchImages()
+    e.element.blur()
   }
 
   return (
@@ -19,7 +26,7 @@ const Searcher = ({ queryRef, searchImages, query }) => {
           placeholder='Телефоны, яблоки, груши...'
           onKeyDown={handleEnter}
         />
-        <Button className='shadow-none' variant='danger' onClick={searchImages}>
+        <Button className='shadow-none' variant='danger' onClick={handleSearch}>
           Искать
         </Button>
       </InputGroup>
