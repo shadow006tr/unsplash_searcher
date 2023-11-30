@@ -1,7 +1,9 @@
 # Unsplash searcher
+
 This project was created as a test exercise using React + Vite by **Danny Wisotsky**.
 
 ### Important notice:
+
 You will need to run `npm install`
 before you try to build or run the project.\
 Also you will need to add an unsplash api key in a `.env` file key 'VITE_UNSPLASH_ACCESS_KEY'

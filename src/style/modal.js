@@ -21,7 +21,8 @@ export const CloseButton = styled.span`
   font-weight: bold;
   transition: 0.3s;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
@@ -33,7 +34,7 @@ export const ModalImage = styled.img`
   display: block;
   width: 80%;
   max-width: 700px;
-  
+
   @media only screen and (max-width: 700px) {
     width: 100%;
   }

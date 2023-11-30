@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { createApi } from 'unsplash-js'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 import FoundImage from './components/FoundImage'
@@ -8,11 +7,10 @@ import Loader from './components/Loader'
 import GlobalStyle from './style/global'
 import { ContentWrapper, ImageWrapper } from './style/app'
 import Modal from './components/Modal.jsx'
+import axios from 'axios'
 
 const App = () => {
-  const unsplash = createApi({
-    accessKey: import.meta.env.VITE_UNSPLASH_ACCESS_KEY,
-  })
+  const PER_PAGE = 30
 
   const [data, setData] = useState([])
   const [query, setQuery] = useState('')
@@ -22,15 +20,15 @@ const App = () => {
   const [selectedImage, setSelectedImage] = useState({})
   const [modalOpen, setModalOpen] = useState(false)
   const fetchImages = () => {
-    unsplash.search
-      .getPhotos({
-        query,
-        page,
-        perPage: 30,
-      })
-      .then(result => {
-        setData([...data, ...result.response.results])
-        setHasMore(page < result.response.total_pages)
+    axios
+      .get(
+        `https://api.unsplash.com/search/photos?client_id=${
+          import.meta.env.VITE_UNSPLASH_ACCESS_KEY
+        }&query=${query}&page=${page}&per_page=${PER_PAGE}`
+      )
+      .then(response => {
+        setData([...data, ...response.data.results])
+        setHasMore(page < response.data.total_pages)
       })
       .catch(error => {
         console.log(error)
@@ -40,8 +38,9 @@ const App = () => {
   const searchImages = () => {
     if (query !== queryRef.current.value) {
       setData([])
-      setQuery(queryRef.current.value)
+      setPage(1)
     }
+    setQuery(queryRef.current.value)
     document.activeElement.blur()
   }
 
@@ -52,16 +51,26 @@ const App = () => {
   }, [query])
 
   const handleOpenModal = (src, alt_description) => {
-    setSelectedImage({src, alt_description})
+    setSelectedImage({ src, alt_description })
     setModalOpen(true)
   }
 
   return (
     <div>
       <GlobalStyle />
-      {modalOpen && <Modal url={selectedImage.src} alt={selectedImage.alt_description} setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <Modal
+          url={selectedImage.src}
+          alt={selectedImage.alt_description}
+          setModalOpen={setModalOpen}
+        />
+      )}
       <ContentWrapper>
-        <Searcher queryRef={queryRef} searchImages={searchImages} query={query} />
+        <Searcher
+          queryRef={queryRef}
+          searchImages={searchImages}
+          query={query}
+        />
         {query && (
           <InfiniteScroll
             dataLength={data.length}
