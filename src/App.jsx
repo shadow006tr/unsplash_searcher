@@ -5,7 +5,7 @@ import FoundImage from './components/FoundImage'
 import Searcher from './components/Searcher'
 import Loader from './components/Loader'
 import GlobalStyle from './style/global'
-import { ContentWrapper, ImageWrapper } from './style/app'
+import { Root, ContentWrapper, ImageWrapper, MessageText } from './style/app'
 import Modal from './components/Modal.jsx'
 import axios from 'axios'
 
@@ -19,6 +19,7 @@ const App = () => {
   const [hasMore, setHasMore] = useState(true)
   const [selectedImage, setSelectedImage] = useState({})
   const [modalOpen, setModalOpen] = useState(false)
+  const [message, setMessage] = useState('')
   const fetchImages = () => {
     axios
       .get(
@@ -29,9 +30,14 @@ const App = () => {
       .then(response => {
         setData([...data, ...response.data.results])
         setHasMore(page < response.data.total_pages)
+        if (data.length === 0) {
+          setMessage('Sorry! Nothing was found by your request')
+        } else {
+          setMessage('')
+        }
       })
       .catch(error => {
-        console.log(error)
+        setMessage(error.message)
       })
     setPage(page + 1)
   }
@@ -56,7 +62,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Root query={query}>
       <GlobalStyle />
       {modalOpen && (
         <Modal
@@ -90,8 +96,9 @@ const App = () => {
             </ImageWrapper>
           </InfiniteScroll>
         )}
+        {message && <MessageText>{message}</MessageText>}
       </ContentWrapper>
-    </div>
+    </Root>
   )
 }
 

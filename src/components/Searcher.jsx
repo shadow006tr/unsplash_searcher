@@ -10,7 +10,7 @@ const Searcher = ({ queryRef, searchImages, query }) => {
   return (
     <Search query={query}>
       <Input
-        type='text'
+        type='search'
         ref={queryRef}
         placeholder='Телефоны, яблоки, груши...'
         onKeyDown={handleEnter}

@@ -5,7 +5,7 @@ import { Image } from '../style/foundImage'
 const FoundImage = ({ urls, alt, handleOpenModal }) => {
   return (
     <Image
-      src={urls.thumb}
+      src={urls.small}
       alt={alt}
       onClick={() => handleOpenModal(urls.regular, alt)}
     />

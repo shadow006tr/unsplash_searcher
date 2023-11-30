@@ -5,17 +5,21 @@ export const ModalContainer = styled.div`
   padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.9);
+
+  @media only screen and (max-width: 1080px) {
+    padding-top: 0;
+  }
 `
 
 export const CloseButton = styled.span`
-  position: absolute;
-  top: 15px;
-  right: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #f1f1f1;
   font-size: 40px;
   font-weight: bold;
@@ -32,10 +36,10 @@ export const CloseButton = styled.span`
 export const ModalImage = styled.img`
   margin: auto;
   display: block;
-  width: 80%;
   max-width: 700px;
+  max-height: 80%;
 
-  @media only screen and (max-width: 700px) {
-    width: 100%;
+  @media only screen and (max-width: 1080px) {
+    max-width: 100%;
   }
 `
